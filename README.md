@@ -39,8 +39,13 @@ Available commands:
 ```sh
 make setup  # Clone repositories that are not installed yet
 make sync   # Pull the latest changes in installed repositories
+make zip    # Create kudora-chat.zip for sharing
 make help   # Display the command list
 ```
+
+`make zip` archives the current `kudora/` working tree while respecting its
+`.gitignore`. Git metadata, caches, build output, local state, and temporary
+files are excluded.
 
 Running `make` without a command returns an error instead of starting an
 operation implicitly.

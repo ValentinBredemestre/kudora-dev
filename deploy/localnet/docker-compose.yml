@@ -6,3 +6,11 @@ services:
     volumes:
       - ../../kudora-app-front/app/mirror-assets:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - default
+      - chain
+
+networks:
+  chain:
+    external: true
+    name: kudora-localnet-chain

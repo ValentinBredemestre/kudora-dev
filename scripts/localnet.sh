@@ -51,8 +51,7 @@ case "${1:-}" in
     printf 'Discussion precompile: 0x0000000000000000000000000000000000000900\n'
     printf 'Local swap:            KUD / MockUSDC\n'
     printf 'Router:                %s\n\n' "${router:-unknown}"
-    make --no-print-directory -C "$CHAIN" product-accounts | sed '/Private key:/d;/LOCAL DEVELOPMENT ONLY/d;/DISPOSABLE/d;/DO NOT USE/d;/^$/d'
-    printf '\nPrivate keys: make localnet-accounts\n'
+    make --no-print-directory -C "$CHAIN" product-accounts
     ;;
   down)
     $FRONT_COMPOSE down --remove-orphans
@@ -70,8 +69,14 @@ case "${1:-}" in
   accounts)
     make --no-print-directory -C "$CHAIN" product-accounts
     ;;
+  fund)
+    make --no-print-directory -C "$CHAIN" product-fund KUDORA_FUND_AMOUNT="${2:-100}"
+    ;;
+  seed)
+    make --no-print-directory -C "$CHAIN" product-seed
+    ;;
   *)
-    echo "usage: localnet.sh up|down|logs|reset|accounts" >&2
+    echo "usage: localnet.sh up|down|logs|reset|accounts|fund|seed" >&2
     exit 1
     ;;
 esac

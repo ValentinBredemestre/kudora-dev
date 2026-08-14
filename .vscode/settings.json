@@ -1,0 +1,8 @@
+{
+  "git.autoRepositoryDetection": "subFolders",
+  "git.scanRepositories": [
+    "kudora",
+    "kudora-app-backend",
+    "kudora-app-front"
+  ]
+}

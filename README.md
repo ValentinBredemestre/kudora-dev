@@ -9,7 +9,8 @@ this directory.
 - [Git](https://git-scm.com/downloads)
 - [GitHub CLI](https://cli.github.com/) authenticated with `gh auth login`
 - `make`
-- Forks of [`kudora-app-backend`](https://github.com/Kudora-Labs/kudora-app-backend)
+- Forks of the [`kudora`](https://github.com/Kudora-Labs/kudora) blockchain,
+  [`kudora-app-backend`](https://github.com/Kudora-Labs/kudora-app-backend),
   and [`kudora-app-front`](https://github.com/Kudora-Labs/kudora-app-front)
 
 On Windows, run the commands from Git Bash. Git for Windows includes Git Bash;
@@ -29,6 +30,7 @@ The repositories are cloned inside `kudora-dev`:
 kudora-dev/
 ├── Makefile
 ├── scripts/
+├── kudora/
 ├── kudora-app-backend/
 └── kudora-app-front/
 ```
@@ -45,9 +47,10 @@ make zip    # Create out/kudora-dev.zip for sharing
 make help   # Display the command list
 ```
 
-`make zip` archives the current `kudora-app-backend/` and `kudora-app-front/`
-working trees while respecting their `.gitignore` files. Git metadata, caches,
-build output, local state, and temporary files are excluded.
+`make zip` archives the current `kudora/`, `kudora-app-backend/`, and
+`kudora-app-front/` working trees while respecting their `.gitignore` files.
+Git metadata, caches, build output, local state, and temporary files are
+excluded.
 
 Running `make` without a command returns an error instead of starting an
 operation implicitly.

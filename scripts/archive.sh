@@ -4,7 +4,8 @@ set -eu
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 DEV_REPOSITORY_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
-CHAIN_REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora-app-backend"
+BLOCKCHAIN_REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora"
+BACKEND_REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora-app-backend"
 FRONTEND_REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora-app-front"
 OUTPUT_DIR="$DEV_REPOSITORY_DIR/out"
 OUTPUT_PATH="$OUTPUT_DIR/kudora-dev.zip"
@@ -15,7 +16,8 @@ fail() {
 }
 
 command -v git >/dev/null 2>&1 || fail "Git is required."
-[ -d "$CHAIN_REPOSITORY_DIR/.git" ] || fail "Run 'make setup' first."
+[ -d "$BLOCKCHAIN_REPOSITORY_DIR/.git" ] || fail "Run 'make setup' first."
+[ -d "$BACKEND_REPOSITORY_DIR/.git" ] || fail "Run 'make setup' first."
 [ -d "$FRONTEND_REPOSITORY_DIR/.git" ] || fail "Run 'make setup' first."
 
 TEMPORARY_DIR=$(mktemp -d "${TMPDIR:-/tmp}/kudora-archive.XXXXXX") || fail "Could not create a temporary directory."
@@ -40,16 +42,19 @@ import_tree() {
         | git --git-dir="$COMBINED_REPOSITORY" index-pack --stdin --fix-thin >/dev/null
 }
 
-CHAIN_TREE=$(worktree_tree "$CHAIN_REPOSITORY_DIR" "$TEMPORARY_DIR/chain.index")
+BLOCKCHAIN_TREE=$(worktree_tree "$BLOCKCHAIN_REPOSITORY_DIR" "$TEMPORARY_DIR/blockchain.index")
+BACKEND_TREE=$(worktree_tree "$BACKEND_REPOSITORY_DIR" "$TEMPORARY_DIR/backend.index")
 FRONTEND_TREE=$(worktree_tree "$FRONTEND_REPOSITORY_DIR" "$TEMPORARY_DIR/frontend.index")
 
 git init --bare --quiet "$COMBINED_REPOSITORY"
-import_tree "$CHAIN_REPOSITORY_DIR" "$CHAIN_TREE"
+import_tree "$BLOCKCHAIN_REPOSITORY_DIR" "$BLOCKCHAIN_TREE"
+import_tree "$BACKEND_REPOSITORY_DIR" "$BACKEND_TREE"
 import_tree "$FRONTEND_REPOSITORY_DIR" "$FRONTEND_TREE"
 
 COMBINED_TREE=$(
     {
-        printf '040000 tree %s\tkudora-app-backend\n' "$CHAIN_TREE"
+        printf '040000 tree %s\tkudora\n' "$BLOCKCHAIN_TREE"
+        printf '040000 tree %s\tkudora-app-backend\n' "$BACKEND_TREE"
         printf '040000 tree %s\tkudora-app-front\n' "$FRONTEND_TREE"
     } | git --git-dir="$COMBINED_REPOSITORY" mktree
 )

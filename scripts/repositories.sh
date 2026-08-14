@@ -5,7 +5,7 @@ set -eu
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 DEV_REPOSITORY_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 WORKSPACE_ROOT=${WORKSPACE_ROOT:-$DEV_REPOSITORY_DIR}
-REPOSITORIES="kudora-app-backend kudora-app-front"
+REPOSITORIES="kudora kudora-app-backend kudora-app-front"
 ACTION=${1:-}
 
 info() {

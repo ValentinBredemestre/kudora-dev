@@ -39,7 +39,7 @@ Available commands:
 ```sh
 make setup  # Clone repositories that are not installed yet
 make sync   # Pull the latest changes in installed repositories
-make zip    # Create kudora-chat.zip for sharing
+make zip    # Create out/kudora-dev.zip for sharing
 make help   # Display the command list
 ```
 

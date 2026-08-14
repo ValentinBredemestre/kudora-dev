@@ -5,7 +5,8 @@ set -eu
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 DEV_REPOSITORY_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora"
-OUTPUT_PATH="$DEV_REPOSITORY_DIR/kudora-chat.zip"
+OUTPUT_DIR="$DEV_REPOSITORY_DIR/out"
+OUTPUT_PATH="$OUTPUT_DIR/kudora-dev.zip"
 
 fail() {
     printf '%s\n' "[kudora-dev] Error: $*" >&2
@@ -25,6 +26,7 @@ git -C "$REPOSITORY_DIR" add -A -- .
 TREE=$(git -C "$REPOSITORY_DIR" write-tree)
 unset GIT_INDEX_FILE
 
+mkdir -p "$OUTPUT_DIR"
 git -C "$REPOSITORY_DIR" archive \
     --format=zip \
     --prefix=kudora/ \

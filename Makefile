@@ -18,5 +18,5 @@ help:
 	@echo ""
 	@echo "  make setup   Clone the required repositories"
 	@echo "  make sync    Pull the latest changes"
-	@echo "  make zip     Create kudora-chat.zip for sharing"
+	@echo "  make zip     Create out/kudora-dev.zip for sharing"
 	@echo "  make help    Show this help"

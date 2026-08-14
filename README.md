@@ -1,68 +1,51 @@
 # Kudora development workspace
 
-This repository prepares a local Kudora workspace. It detects the GitHub user
-authenticated with the GitHub CLI, then clones that user's required forks into
-this directory.
+Kudora is a Cosmos SDK chain with EVM support. This workspace groups the
+blockchain and application repositories without merging their Git histories.
 
-## Requirements
+Requirements: Docker, Docker Compose, Make, and Git.
 
-- [Git](https://git-scm.com/downloads)
-- [GitHub CLI](https://cli.github.com/) authenticated with `gh auth login`
-- `make`
-- Forks of the [`kudora`](https://github.com/Kudora-Labs/kudora) blockchain,
-  [`kudora-app-backend`](https://github.com/Kudora-Labs/kudora-app-backend),
-  and [`kudora-app-front`](https://github.com/Kudora-Labs/kudora-app-front)
-
-On Windows, run the commands from Git Bash. Git for Windows includes Git Bash;
-`make` can be installed with a package manager such as Chocolatey or Scoop.
-
-## Setup
+## Local product
 
 ```sh
-git clone https://github.com/YOUR_GITHUB_USER/kudora-dev.git
-cd kudora-dev
+make localnet
+```
+
+Open the printed frontend URL, normally <http://localhost:3000>. The command
+starts three validators, the conventional Cosmos and EVM endpoints, the static
+frontend, three funded disposable accounts, and the local-only KUD/MockUSDC
+swap fixture. No application backend or database is used.
+
+The frontend offers four signing paths:
+
+- MetaMask and Local MetaMask for EVM transactions.
+- Keplr and Local Keplr for native Cosmos transactions.
+
+Both wallet families read and modify the same chain state. Quick interactions
+authorize a browser-local session key for discussion posts and reactions only;
+Zap, governance, transfers, and swaps still use the primary wallet.
+
+Useful commands:
+
+```sh
+make localnet-accounts  # Print disposable local keys and both address forms
+make localnet-logs      # Follow frontend and validator logs
+make localnet-down      # Stop the environment and keep its state
+make localnet-reset     # Stop it and delete generated local state
+make e2e                # Run chain, validator-fault, and browser business E2E
+```
+
+Local keys are deterministic, disposable, and must never be used on mainnet.
+The swap contracts are a test fixture, not a production DEX.
+
+## Workspace setup
+
+```sh
 make setup
+make sync
+make zip
 ```
 
-The repositories are cloned inside `kudora-dev`:
-
-```text
-kudora-dev/
-├── Makefile
-├── scripts/
-├── kudora/
-├── kudora-app-backend/
-└── kudora-app-front/
-```
-
-Run `make sync` at any time to pull the latest changes. The update uses
-`git pull --ff-only`, so it does not rewrite the repository's history.
-
-Available commands:
-
-```sh
-make setup  # Clone repositories that are not installed yet
-make sync   # Pull the latest changes in installed repositories
-make zip    # Create out/kudora-dev.zip for sharing
-make help   # Display the command list
-```
-
-`make zip` archives the current `kudora/`, `kudora-app-backend/`, and
-`kudora-app-front/` working trees while respecting their `.gitignore` files.
-Git metadata, caches, build output, local state, and temporary files are
-excluded.
-
-Running `make` without a command returns an error instead of starting an
-operation implicitly.
-
-If the GitHub CLI is unavailable, the script uses the owner of the
-`kudora-dev` origin. You can also select an account or destination explicitly:
-
-```sh
-GITHUB_USER=your-name WORKSPACE_ROOT=/path/to/workspace make setup
-```
-
-## Adding repositories
-
-Add the repository name to the space-separated `REPOSITORIES` value in
-`scripts/repositories.sh`, then add its directory to `.gitignore`.
+`make setup` clones missing repositories, `make sync` fast-forwards repositories
+already present, and `make zip` creates `out/kudora-dev.zip` without Git metadata,
+caches, generated state, or build output. Run `make help` for the command list.

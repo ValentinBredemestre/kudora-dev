@@ -4,8 +4,8 @@ set -eu
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 DEV_REPOSITORY_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
-CHAIN_REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora"
-FRONTEND_REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora-front-app"
+CHAIN_REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora-app-backend"
+FRONTEND_REPOSITORY_DIR="$DEV_REPOSITORY_DIR/kudora-app-front"
 OUTPUT_DIR="$DEV_REPOSITORY_DIR/out"
 OUTPUT_PATH="$OUTPUT_DIR/kudora-dev.zip"
 
@@ -49,8 +49,8 @@ import_tree "$FRONTEND_REPOSITORY_DIR" "$FRONTEND_TREE"
 
 COMBINED_TREE=$(
     {
-        printf '040000 tree %s\tkudora\n' "$CHAIN_TREE"
-        printf '040000 tree %s\tkudora-front-app\n' "$FRONTEND_TREE"
+        printf '040000 tree %s\tkudora-app-backend\n' "$CHAIN_TREE"
+        printf '040000 tree %s\tkudora-app-front\n' "$FRONTEND_TREE"
     } | git --git-dir="$COMBINED_REPOSITORY" mktree
 )
 

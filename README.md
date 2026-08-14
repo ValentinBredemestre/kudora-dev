@@ -45,9 +45,9 @@ make zip    # Create out/kudora-dev.zip for sharing
 make help   # Display the command list
 ```
 
-`make zip` archives the current `kudora/` working tree while respecting its
-`.gitignore`. Git metadata, caches, build output, local state, and temporary
-files are excluded.
+`make zip` archives the current `kudora/` and `kudora-front-app/` working trees
+while respecting their `.gitignore` files. Git metadata, caches, build output,
+local state, and temporary files are excluded.
 
 Running `make` without a command returns an error instead of starting an
 operation implicitly.

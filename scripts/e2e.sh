@@ -10,6 +10,7 @@ make --no-print-directory -C "$ROOT/kudora" e2e
 echo "[kudora:e2e] Browser business scenarios"
 sh "$ROOT/scripts/localnet.sh" reset
 sh "$ROOT/scripts/localnet.sh" up
+sh "$ROOT/scripts/localnet.sh" seed
 sh "$ROOT/scripts/browser-e2e.sh"
 
 echo "[kudora:e2e] PASS — chain, validator faults, and browser business flows"

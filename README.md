@@ -1,8 +1,8 @@
 # Kudora development workspace
 
 This repository prepares a local Kudora workspace. It detects the GitHub user
-authenticated with the GitHub CLI, then clones that user's required forks. If a
-repository is already present, it updates it with a fast-forward pull.
+authenticated with the GitHub CLI, then clones that user's required forks into
+this directory.
 
 ## Requirements
 
@@ -19,28 +19,40 @@ On Windows, run the commands from Git Bash. Git for Windows includes Git Bash;
 ```sh
 git clone https://github.com/YOUR_GITHUB_USER/kudora-dev.git
 cd kudora-dev
-make
+make setup
 ```
 
-The repositories are cloned next to `kudora-dev`:
+The repositories are cloned inside `kudora-dev`:
 
 ```text
-workspace/
-├── kudora-dev/
+kudora-dev/
+├── Makefile
+├── scripts/
 └── kudora/
 ```
 
-Run `make` again at any time to pull the latest changes. The update uses
-`git pull --ff-only`, so it never overwrites local work.
+Run `make sync` at any time to pull the latest changes. The update uses
+`git pull --ff-only`, so it does not rewrite the repository's history.
+
+Available commands:
+
+```sh
+make setup  # Clone repositories that are not installed yet
+make sync   # Pull the latest changes in installed repositories
+make help   # Display the command list
+```
+
+Running `make` without a command returns an error instead of starting an
+operation implicitly.
 
 If the GitHub CLI is unavailable, the script uses the owner of the
 `kudora-dev` origin. You can also select an account or destination explicitly:
 
 ```sh
-GITHUB_USER=your-name WORKSPACE_ROOT=/path/to/workspace make
+GITHUB_USER=your-name WORKSPACE_ROOT=/path/to/workspace make setup
 ```
 
 ## Adding repositories
 
 Add the repository name to the space-separated `REPOSITORIES` value in
-`scripts/sync-repositories.sh`.
+`scripts/repositories.sh`, then add its directory to `.gitignore`.

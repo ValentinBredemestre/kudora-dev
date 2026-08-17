@@ -57,6 +57,17 @@ case "${1:-}" in
     $FRONT_COMPOSE down --remove-orphans
     make --no-print-directory -C "$CHAIN" product-down
     ;;
+  fast)
+    duration="${2:-5m}"
+    if ! printf '%s\n' "$duration" | grep -Eq '^[1-9][0-9]*(s|m|h)$'; then
+      echo "[kudora-dev] VOTING_PERIOD must use s, m or h, for example 90s or 5m" >&2
+      exit 1
+    fi
+    echo "[kudora-dev] Recreating the disposable localnet with a $duration proposal voting period"
+    "$0" reset
+    KUDORA_MAX_DEPOSIT_PERIOD="$duration" KUDORA_VOTING_PERIOD="$duration" "$0" up
+    printf '\nProposal testing mode: votes stay open for %s.\n' "$duration"
+    ;;
   logs)
     $FRONT_COMPOSE logs --tail 100 frontend
     make --no-print-directory -C "$CHAIN" product-logs
@@ -76,7 +87,7 @@ case "${1:-}" in
     make --no-print-directory -C "$CHAIN" product-seed
     ;;
   *)
-    echo "usage: localnet.sh up|down|logs|reset|accounts|fund|seed" >&2
+    echo "usage: localnet.sh up|down|fast [duration]|logs|reset|accounts|fund|seed" >&2
     exit 1
     ;;
 esac

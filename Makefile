@@ -2,7 +2,7 @@ ifeq ($(strip $(MAKECMDGOALS)),)
 $(error Specify a command. Run 'make help' to list the available commands)
 endif
 
-.PHONY: e2e fund help localnet localnet-accounts localnet-down localnet-logs localnet-reset seed setup sync zip
+.PHONY: e2e fund help localnet localnet-accounts localnet-down localnet-fast localnet-logs localnet-reset seed setup sync zip
 
 e2e:
 	@sh scripts/e2e.sh
@@ -24,6 +24,7 @@ help:
 	@echo "  make localnet           Start 3 validators and the frontend"
 	@echo "  make localnet-accounts  Print disposable local accounts and keys"
 	@echo "  make localnet-down      Stop the local environment"
+	@echo "  make localnet-fast      Recreate localnet with 5-minute proposal votes"
 	@echo "  make localnet-logs      Follow validator and frontend logs"
 	@echo "  make localnet-reset     Remove generated local state"
 	@echo "  make seed               Create the on-chain demo dataset"
@@ -40,6 +41,9 @@ localnet-accounts:
 
 localnet-down:
 	@sh scripts/localnet.sh down
+
+localnet-fast:
+	@sh scripts/localnet.sh fast "$(VOTING_PERIOD)"
 
 localnet-logs:
 	@sh scripts/localnet.sh logs

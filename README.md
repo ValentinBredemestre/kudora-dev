@@ -29,6 +29,7 @@ Useful commands:
 
 ```sh
 make localnet-accounts  # Print disposable local keys and both address forms
+make localnet-fast      # Recreate localnet with five-minute proposal votes
 make localnet-logs      # Follow frontend and validator logs
 make localnet-down      # Stop the environment and keep its state
 make localnet-reset     # Stop it and delete generated local state

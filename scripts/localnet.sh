@@ -42,7 +42,7 @@ case "${1:-}" in
     printf '\nKudora localnet ready\n\n'
     printf 'Frontend:              http://localhost:3000\n'
     printf 'Cosmos chain:          kudora_12000-1\n'
-    printf 'EVM chain:             120001\n'
+    printf 'EVM chain:             120002 (Kudora Localnet)\n'
     printf 'Cosmos REST:           http://localhost:1317\n'
     printf 'Cosmos RPC:            http://localhost:26657\n'
     printf 'EVM RPC:               http://localhost:3000/evm-rpc\n'

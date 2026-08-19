@@ -45,7 +45,7 @@ case "${1:-}" in
     printf 'EVM chain:             120001\n'
     printf 'Cosmos REST:           http://localhost:1317\n'
     printf 'Cosmos RPC:            http://localhost:26657\n'
-    printf 'EVM RPC:               http://localhost:8545\n'
+    printf 'EVM RPC:               http://localhost:3000/evm-rpc\n'
     printf 'Current block:         %s\n' "${block:-unknown}"
     printf 'Validators:            3\n'
     printf 'Discussion precompile: 0x0000000000000000000000000000000000000900\n'
